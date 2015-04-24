@@ -1,5 +1,5 @@
 if platform_family?('windows')
-  registry_key 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AeDebug' do
+  registry_key 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AeDebug' do
     values [{
         name: 'Auto',
         type: :string,
@@ -12,7 +12,7 @@ if platform_family?('windows')
       }]
   end
   
-  registry_key 'HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\AeDebug' do
+  registry_key 'HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\AeDebug' do
     values [{
         name: 'Auto',
         type: :dword,
@@ -23,6 +23,14 @@ if platform_family?('windows')
         type: :string,
         data: node['crash_dumps']['debugger']
       }]
+  end
+
+  registry_key 'HKLM\Software\Microsoft\Windows\Windows Error Reporting' do
+    values [{
+      name: 'DontShowUI',
+      type: :dword,
+      data: 1
+    }]
   end
 else
   file_append "/etc/security/limits.conf" do
