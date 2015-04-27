@@ -33,14 +33,18 @@ if platform_family?('windows')
     }]
   end
 else
+  directory node['crash_dumps']['directory'] do
+    recursive true
+  end
+
   file_append "/etc/security/limits.conf" do
     line "root - core -1"
   end
   
-  execute "sysctl -w kernel.core_pattern=\"#{node['crash_dumps']['directory']}/core.%e%N%d%f.%t.%p\""
+  execute "sysctl -w kernel.core_pattern=\"#{node['crash_dumps']['directory']}/#{node['crash_dumps']['pattern']}\""
 
   file_append "/etc/sysctl.conf" do
-    line "kernel.core_pattern=#{node['crash_dumps']['directory']}/core.%e%N%d%f.%t.%p"
+    line "kernel.core_pattern=#{node['crash_dumps']['directory']}/#{node['crash_dumps']['pattern']}"
   end
   
   service "abrt-ccpp" do
