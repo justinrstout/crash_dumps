@@ -32,6 +32,8 @@ if platform_family?('windows')
       data: 1
     }]
   end
+
+  execute 'net use \\\\live.sysinternals.com'
 else
   directory node['crash_dumps']['directory'] do
     recursive true
