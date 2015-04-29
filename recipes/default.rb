@@ -1,3 +1,8 @@
+directory node['crash_dumps']['directory'] do
+  recursive true
+  mode "0777"
+end
+
 if platform_family?('windows')
   registry_key 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AeDebug' do
     values [{
@@ -35,12 +40,8 @@ if platform_family?('windows')
 
   execute 'net use \\\\live.sysinternals.com'
 else
-  directory node['crash_dumps']['directory'] do
-    recursive true
-  end
-
   file_append "/etc/security/limits.conf" do
-    line "root - core -1"
+    line "#{node['crash_dumps']['user']} - core -1"
   end
   
   execute "sysctl -w kernel.core_pattern=\"#{node['crash_dumps']['directory']}/#{node['crash_dumps']['pattern']}\""
