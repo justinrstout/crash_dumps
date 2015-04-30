@@ -4,6 +4,14 @@ directory node['crash_dumps']['directory'] do
 end
 
 if platform_family?('windows')
+
+  #Possibly split out the download into it's own sysinternals cookbook
+  procdump_full_path = "#{node['crash_dumps']['directory']}\\procdump.exe"
+
+  remote_file procdump_full_path do
+    source "#{node['crash_dumps']['url']}"
+  end
+
   registry_key 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AeDebug' do
     values [{
         name: 'Auto',
@@ -38,7 +46,7 @@ if platform_family?('windows')
     }]
   end
 
-  execute 'net use \\\\live.sysinternals.com'
+ # execute 'net use \\\\live.sysinternals.com'
 else
   file_append "/etc/security/limits.conf" do
     line "#{node['crash_dumps']['user']} - core -1"
