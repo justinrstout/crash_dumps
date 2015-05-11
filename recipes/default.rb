@@ -6,7 +6,11 @@ end
 if platform_family?('windows')
 
   #Possibly split out the download into it's own sysinternals cookbook
-  procdump_full_path = "#{node['crash_dumps']['directory']}\\procdump.exe"
+  directory node['crash_dumps']['procdump_installdir'] do
+    recursive true
+  end
+  
+  procdump_full_path = "#{node['crash_dumps']['procdump_installdir']}\\procdump.exe"
 
   remote_file procdump_full_path do
     source "#{node['crash_dumps']['url']}"
