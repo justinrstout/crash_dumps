@@ -32,7 +32,7 @@ if platform_family?('windows')
   registry_key 'HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\AeDebug' do
     values [{
         name: 'Auto',
-        type: :dword,
+        type: :string,
         data: '1'
       },
       {

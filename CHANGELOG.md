@@ -1,3 +1,11 @@
+# 1.1.2
+-------
+- Fix 32 bit crash dumps
+
+# 1.1.1
+-------
+- Change default procdump install dir
+
 # 1.1.0
 -------
 - Add attribute for procdump's install directory
